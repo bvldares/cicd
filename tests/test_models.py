@@ -34,11 +34,17 @@ def test_todo_item_response():
 
 def test_todo_item_validation_error():
     """Test per verificare gli errori di validazione"""
+    # Test: campo name mancante
     with pytest.raises(ValidationError):
         TodoItem()  # Manca il campo name
     
+    # Test: campo name vuoto
     with pytest.raises(ValidationError):
-        TodoItem(name="")  # Nome vuoto dovrebbe essere valido, ma dipende dalla validazione
+        TodoItem(name="")  # Nome vuoto non valido
+    
+    # Test: campo name con solo spazi
+    with pytest.raises(ValidationError):
+        TodoItem(name="   ")  # Solo spazi non valido
 
 
 def test_todo_item_response_with_completion():
