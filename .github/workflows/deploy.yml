@@ -1,0 +1,33 @@
+# .github/workflows/deploy.yml
+
+name: Deploy Python API
+
+on:
+  push:
+    branches:
+      - main # Esegui quando fai un push sulla branch 'main'
+
+jobs:
+  build_and_test: # Un lavoro che fa il test e prepara la tua API
+    runs-on: ubuntu-latest # Il robot usa un computer con Ubuntu (Linux)
+
+    steps: # Le istruzioni che il robot eseguirà, una dopo l'altra
+      - name: Checkout del codice # Il robot prende la tua cartellina di disegni da GitHub
+        uses: actions/checkout@v4
+
+      - name: Imposta Python # Il robot installa Python per te
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10' # Scegli una versione di Python
+
+      - name: Installa le dipendenze # Il robot mette i colori giusti
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install -r requirements.txt
+          pip install uvicorn # Serve per eseguire la tua API
+
+      - name: Esegui test (Pytest) # Il robot controlla se i colori funzionano bene
+        run: |
+          source venv/bin/activate
+          pytest
